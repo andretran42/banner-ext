@@ -1,4 +1,3 @@
-createForm().catch(console.error);
 document.getElementById("add").onclick = function appendField() {
   createForm();
 };
@@ -29,18 +28,35 @@ document.getElementById("save").onclick = function saveStorage() {
 
 async function createForm() {
   let form = document.getElementById("form");
-  let input = document.createElement("input");
-  input.setAttribute("class", "input");
-  input.type = "text";
-  input.addEventListener("change", (event) => {
-    console.log("change test");
-  });
-
+  // let input = document.createElement("input");
   let span = document.createElement("span");
   let div = document.createElement("div");
-  div.appendChild(input);
-  div.appendChild(span);
-  form.appendChild(div);
+  chrome.storage.sync.get().then(function (result) {
+    var crnL = result["crnList"];
+    if (crnL == null || crnL.length == 0) {
+      console.log(crnL);
+      // Add a default empty input box
+      let input = document.createElement("input");
+      input.setAttribute("class", "input");
+      div.appendChild(input);
+      div.appendChild(span);
+      form.appendChild(div);
+    } else {
+      // Add all the CRNs saved to the extension
+      for (let i in crnL) {
+        let input = document.createElement("input");
+        input.setAttribute("class", "input");
+        input.value = crnL[i];
+        div.appendChild(input);
+        div.appendChild(span);
+        form.appendChild(div);
+      }
+    }
+  });
+
+  //   chrome.storage.sync.get("crnList", ({ CRNs }) => {
+
+  //   });
 }
 
 async function getCurrentTab() {
@@ -48,3 +64,5 @@ async function getCurrentTab() {
   let [tab] = await chrome.tabs.query(queryOptions);
   return tab;
 }
+
+createForm();
