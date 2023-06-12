@@ -1,5 +1,7 @@
 crnPromise = chrome.storage.sync.get();
 addCRN = document.getElementById("addAnotherCRN");
+summaryCRN = document.getElementById("addCRNbutton");
+saveBtn = document.getElementById("saveButton");
 
 inputCRN = () => {
   crnPromise.then(function (result) {
@@ -11,6 +13,8 @@ inputCRN = () => {
       inpCRN.value = crnLi[i];
       addCRN.click();
     }
+    summaryCRN.click();
+    saveBtn.click();
   });
 };
 

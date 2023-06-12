@@ -1,6 +1,7 @@
 document.getElementById("add").onclick = function appendField() {
-  createForm();
+  createEmptyField();
 };
+
 document.getElementById("register").onclick = function inj() {
   getCurrentTab().then((tab) => {
     const { url, id } = tab;
@@ -28,7 +29,6 @@ document.getElementById("save").onclick = function saveStorage() {
 
 async function createForm() {
   let form = document.getElementById("form");
-  // let input = document.createElement("input");
   let span = document.createElement("span");
   let div = document.createElement("div");
   chrome.storage.sync.get().then(function (result) {
@@ -57,6 +57,16 @@ async function createForm() {
   //   chrome.storage.sync.get("crnList", ({ CRNs }) => {
 
   //   });
+}
+
+async function createEmptyField() {
+  let input = document.createElement("input");
+  let form = document.getElementById("form");
+  let span = document.createElement("span");
+  let div = document.createElement("div");
+  div.appendChild(input);
+  div.appendChild(span);
+  form.appendChild(div);
 }
 
 async function getCurrentTab() {
